@@ -1,3 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateMenuDto } from './dto/create-menu.dto';
@@ -7,27 +11,23 @@ import { Prisma } from '.prisma/client/wasm';
 @Injectable()
 export class MenuService {
   constructor(private prisma: PrismaService) {}
+  private buildTree(menus: any[], parentId: string | null = null) {
+    return menus
+      .filter((menu) => menu.parentId === parentId)
+      .map((menu) => ({
+        ...menu,
+        children: this.buildTree(menus, menu.id),
+      }));
+  }
 
+  // Get all
   async findAll() {
-    const menus = await this.prisma.menu.findMany({
-      where: { parentId: null },
-      include: {
-        children: {
-          include: {
-            children: {
-              include: {
-                children: {
-                  include: {
-                    children: true, // sampai depth 5
-                  },
-                },
-              },
-            },
-          },
-        },
-      },
+    const allMenus = await this.prisma.menu.findMany({
+      orderBy: { orderIndex: 'asc' },
     });
-    return menus;
+
+    const menuTree = this.buildTree(allMenus);
+    return menuTree;
   }
 
   // Get one
