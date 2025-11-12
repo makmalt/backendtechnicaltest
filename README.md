@@ -1,5 +1,3 @@
-(The file `c:\Code\technicalTest\backend\README.md` exists, but is empty)
-
 # Backend (NestJS)
 
 Repository ini berisi backend API untuk proyek — dibangun menggunakan NestJS (v11) dengan Prisma sebagai ORM untuk MySQL.
