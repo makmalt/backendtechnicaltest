@@ -6,7 +6,6 @@ import {
   Param,
   Put,
   Delete,
-  Patch,
 } from '@nestjs/common';
 import { MenuService } from './menu.service';
 import { CreateMenuDto } from './dto/create-menu.dto';
@@ -45,17 +44,5 @@ export class MenuController {
   @Delete(':id')
   delete(@Param('id') id: string) {
     return this.menuService.delete(id);
-  }
-
-  @ApiOperation({ summary: 'Move a menu to a new parent' })
-  @Patch(':id/move')
-  move(@Param('id') id: string, @Body('parentId') parentId: string) {
-    return this.menuService.move(id, parentId);
-  }
-
-  @ApiOperation({ summary: 'Reorder a menu item' })
-  @Patch(':id/reorder')
-  reorder(@Param('id') id: string, @Body('orderIndex') orderIndex: number) {
-    return this.menuService.reorder(id, orderIndex);
   }
 }

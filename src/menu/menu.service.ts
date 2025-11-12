@@ -72,26 +72,4 @@ export class MenuService {
     await this.prisma.menu.deleteMany({ where: { parentId: id } });
     return this.prisma.menu.delete({ where: { id } });
   }
-
-  // Move menu to different parent
-  async move(id: string, newParentId: string) {
-    const parent = await this.prisma.menu.findUnique({
-      where: { id: newParentId },
-    });
-    if (!parent) throw new NotFoundException('Parent not found');
-
-    const newDepth = parent.depth + 1;
-    return this.prisma.menu.update({
-      where: { id },
-      data: { parentId: newParentId, depth: newDepth },
-    });
-  }
-
-  // Reorder menu within same level
-  async reorder(id: string, newOrderIndex: number) {
-    return this.prisma.menu.update({
-      where: { id },
-      data: { orderIndex: newOrderIndex },
-    });
-  }
 }
