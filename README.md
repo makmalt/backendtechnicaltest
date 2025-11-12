@@ -1,98 +1,78 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+(The file `c:\Code\technicalTest\backend\README.md` exists, but is empty)
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+# Backend (NestJS)
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+Repository ini berisi backend API untuk proyek — dibangun menggunakan NestJS (v11) dengan Prisma sebagai ORM untuk MySQL.
 
-## Description
+README ini berisi deskripsi singkat, prasyarat, dan langkah-langkah untuk menjalankan aplikasi backend secara lokal (instruksi ditulis untuk Windows PowerShell, namun perintah juga berlaku di macOS/Linux dengan sedikit penyesuaian untuk path).
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Ringkasan singkat
 
-## Project setup
+- Framework: NestJS (v11)
+- Database: MySQL (via Prisma)
+- ORM / Migrasi: Prisma
+- API docs: Swagger tersedia di `/api/docs` saat server berjalan
+- Port default: 5000 (lihat `src/main.ts`)
 
-```bash
-$ npm install
+## Prasyarat
+
+- Node.js (disarankan versi 18+)
+- npm
+- MySQL (jalankan lokal atau gunakan service remote). Anda perlu mengatur `DATABASE_URL` di environment.
+
+Contoh format `DATABASE_URL` untuk MySQL:
+
+```
+mysql://USER:PASSWORD@HOST:PORT/DATABASE
 ```
 
-## Compile and run the project
+Contoh untuk PowerShell (set sementara untuk sesi saat ini):
 
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+```powershell
+$env:DATABASE_URL = "mysql://root:password@localhost:3306/backend_db"
 ```
 
-## Run tests
+Atau buat file `.env` di folder `backend` dengan isi:
 
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+```
+DATABASE_URL="mysql://root:password@localhost:3306/backend_db"
 ```
 
-## Deployment
+## Instalasi
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+1. Masuk ke folder backend dan install dependensi:
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
-
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+```powershell
+npm install
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+## Menyiapkan database (Prisma)
 
-## Resources
+```powershell
+# Generate Prisma client
+npx prisma generate
 
-Check out a few resources that may come in handy when working with NestJS:
+# Migrasi:
+npx prisma migrate deploy
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+# Jalankan seed (script ada di package.json via prisma.seed):
+npx prisma db seed
+```
 
-## Support
+Catatan:
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+- Script seed di proyek ini menjalankan `ts-node prisma/seed.ts` (lihat `package.json`).
 
-## Stay in touch
+## Menjalankan server
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+- Mode development (watch):
 
-## License
+```powershell
+npm run start:dev
+```
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+Server berjalan default pada port `5000`. API docs Swagger tersedia di:
+
+```
+http://localhost:5000/api/docs
+```

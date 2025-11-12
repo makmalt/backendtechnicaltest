@@ -28,6 +28,7 @@ export class MenuController {
     return this.menuService.findOne(id);
   }
 
+  // Id random dari Frontend
   @ApiOperation({ summary: 'Create a new menu' })
   @Post()
   create(@Body() dto: CreateMenuDto) {
