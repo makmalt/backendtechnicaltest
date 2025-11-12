@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { PrismaService } from '../prisma/prisma.service';
 import { CreateMenuDto } from './dto/create-menu.dto';
 import { UpdateMenuDto } from './dto/update-menu.dto';
 import { Prisma } from '.prisma/client/wasm';
@@ -66,10 +66,19 @@ export class MenuService {
     });
   }
 
-  // Delete (with children)
+  // Delete semua
   async delete(id: string) {
-    // delete all children first
-    await this.prisma.menu.deleteMany({ where: { parentId: id } });
+    const children = await this.prisma.menu.findMany({
+      where: { parentId: id },
+      select: { id: true },
+    });
+
+    // hapus children
+    for (const child of children) {
+      await this.delete(child.id);
+    }
+
+    // hapus parent
     return this.prisma.menu.delete({ where: { id } });
   }
 }
